@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=1366" />
+  <title>งบกรุงเทพมหานคร โดย tupleblog team</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mitr" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+<body>
+  <nav class="grey lighten-4" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo black-text">งบกรุงเทพมหานคร</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+  <div class="">
+
+    <iframe src="plots/budget_map.html" width="100%%" height="620" class="iframe-chart center-align"
+      style="border:none;" loading="lazy"></iframe>
+
+
+    <div class="spacing"></div>
+
+
+    <h3 class="center">งบประมาณแยกตามสำนักงาน</h3>
+
+    <div class="item">
+
+      <ul class="collection">
+        <li class="collection-item">
+          งบประมาณที่สำนักงานเขตได้คิดเป็นประมาณ​ 23% จากงบทั้งหมด โดยเขตที่ได้งบมากที่สุดคือเขตหนองจอก (589 ล้านบาท)
+          ส่วนเขตงบน้อยที่สุดคือเขตสัมพันธวงศ์ (208 ล้านบาท)
+        </li>
+        <li class="collection-item">
+          โดยถ้าเทียบตามสัดส่วนขนาดพื้นที่เขตสัมพันธวงศ์จะได้มากที่สุด
+          รองมาด้วยเขตป้อมปราบศัตรูพ่าย พระนคร และบางรัก ส่วนต่ำสุดคือเขตลาดกระบัง สามวาและหนอกจอก
+        </li>
+        <li class="collection-item">
+          ส่วนถ้าเทียบตามจำนวนประชากรในเขตสัมพันธวงศ์ยังได้งบมากที่สุดต่อจำนวนคน
+          รองมาด้วยเขตป้อมปราบศัตรูพ่าย พระนคร และปทุมวัน ส่วนต่ำสุดคือเขตบึงกุ่ม บางเขนและสายไหม
+        </li>
+      </ul>
+
+    </div>
+
+    <iframe src="plots/budget-ranking.html" width="1220" height="620" class="iframe-chart center-align"
+      loading="lazy"></iframe>
+
+    <p class="center">เราลองมาดูงบประมาณเมื่อเทียบกับขนาดพื้นที่เขตและจำนวนประชากรบ้างดีกว่า</p>
+
+    <div class="item2">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#budget-area" class="active">ขนาดพื้นที่</a></li>
+          <li class="tab col s3"><a href="#budget-pop">จำนวนประชากร</a></li>
+        </ul>
+      </div>
+
+      <div id="budget-area" class="col s12">
+        <iframe src="plots/budget-ratio-area-ranking.html" width="1350" height="650" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-pop" class="col s12">
+        <iframe src="plots/budget-ratio-pop-ranking.html" width="1350" height="650"
+          class="iframe-chart center-align loading=" lazy"></iframe>
+      </div>
+
+
+    </div>
+
+    <div class="line-divider"></div>
+
+    <h3 class="center">งบประมาณแจกแจงเทียบตามจำนวนประชากร</h3>
+
+    <div class="item2">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#budget-gen" class="active">ทั่วไป-บริหาร-อื่นๆ</a></li>
+          <li class="tab col s3"><a href="#budget-treasury">การคลัง</a></li>
+          <li class="tab col s3"><a href="#budget-clean">เทศกิจ-รักษาความสะอาด</a></li>
+          <li class="tab col s3"><a href="#budget-civil">โยธา-ก่อสร้าง-จราจร</a></li>
+          <li class="tab col s3"><a href="#budget-pedes">น้ำท่วม-ทางเท้า</a></li>
+          <li class="tab col s3"><a href="#budget-env">สิ่งแวดล้อม</a></li>
+          <li class="tab col s3"><a href="#budget-enh">พัฒนาชุมชน-อาชีพ</a></li>
+          <li class="tab col s3"><a href="#budget-health">อนามัย-สาธารณะสุข</a></li>
+          <li class="tab col s3"><a href="#budget-edu">การศึกษา</a></li>
+        </ul>
+      </div>
+
+      <div id="budget-gen" class="col s12">
+        <iframe src="plots/scatter-gen-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-treasury" class="col s12">
+        <iframe src="plots/scatter-treasury-budget.html" width="650" height="620"
+          class="iframe-chart center-align loading=" lazy""></iframe>
+      </div>
+
+      <div id="budget-clean" class="col s12">
+        <iframe src="plots/scatter-clean-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-civil" class="col s12">
+        <iframe src="plots/scatter-civil-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-pedes" class="col s12">
+        <iframe src="plots/scatter-pedes-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-env" class="col s12">
+        <iframe src="plots/scatter-env-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-enh" class="col s12">
+        <iframe src="plots/scatter-enh-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-health" class="col s12">
+        <iframe src="plots/scatter-health-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-edu" class="col s12">
+        <iframe src="plots/scatter-edu-budget.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+    </div>
+
+
+    <div class="line-divider"></div>
+
+    <h3 class="center">งบประมาณแจกแจงเทียบตามขนาดพื้นที่เขต</h3>
+
+    <div class="item2 blue-text text-darken-2">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s3"><a href="#budget-area-gen" class="active">ทั่วไป-บริหาร-อื่นๆ</a></li>
+          <li class="tab col s3"><a href="#budget-area-treasury">การคลัง</a></li>
+          <li class="tab col s3"><a href="#budget-area-clean">เทศกิจ-รักษาความสะอาด</a></li>
+          <li class="tab col s3"><a href="#budget-area-civil">โยธา-ก่อสร้าง-จราจร</a></li>
+          <li class="tab col s3"><a href="#budget-area-pedes">น้ำท่วม-ทางเท้า</a></li>
+          <li class="tab col s3"><a href="#budget-area-env">สิ่งแวดล้อม</a></li>
+          <li class="tab col s3"><a href="#budget-area-enh">พัฒนาชุมชน-อาชีพ</a></li>
+          <li class="tab col s3"><a href="#budget-area-health">อนามัย-สาธารณะสุข</a></li>
+          <li class="tab col s3"><a href="#budget-area-edu">การศึกษา</a></li>
+        </ul>
+      </div>
+
+      <div id="budget-area-gen" class="col s12">
+        <iframe src="plots/scatter-gen-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-treasury" class="col s12">
+        <iframe src="plots/scatter-treasury-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-clean" class="col s12">
+        <iframe src="plots/scatter-clean-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-civil" class="col s12">
+        <iframe src="plots/scatter-civil-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-pedes" class="col s12">
+        <iframe src="plots/scatter-pedes-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-env" class="col s12">
+        <iframe src="plots/scatter-env-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-enh" class="col s12">
+        <iframe src="plots/scatter-enh-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-health" class="col s12">
+        <iframe src="plots/scatter-health-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+      <div id="budget-area-edu" class="col s12">
+        <iframe src="plots/scatter-edu-budget-area.html" width="650" height="620" class="iframe-chart center-align"
+          loading="lazy"></iframe>
+      </div>
+
+    </div>
+
+    <div class="line-divider"></div>
+
+
+    <div class="center">
+      <a href="survey.html" class="waves-effect waves-light btn btn-xlarge">ทำแบบสอบถาม</a>
+    </div>
+
+    <div style="margin: 40px 0;"></div>
+
+  </div>
+
+
+
+
+  <footer class="page-footer grey lighten-1">
+    <div class="footer-copyright">
+      <div class="container">
+        Made by <a class="grey-text text-lighten-3" href="https://tupleblog.github.io/" target="_BLANK">tupleblog
+          team</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+
+</body>
+
+</html>
