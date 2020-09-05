@@ -1,0 +1,6 @@
+pandas==1.1.1
+requests==2.24.0
+flask==1.1.2
+python-dotenv==0.14.0
+cachetools==4.1.1
+airtable-python-wrapper==0.15.0
