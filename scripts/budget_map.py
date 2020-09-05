@@ -1,12 +1,20 @@
 import json
-import os.path as op
+# import os.path as op
 import pandas as pd
 import folium
 
 
 if __name__ == "__main__":
-    budget_df = pd.read_csv(op.join('..', 'data', 'budget.csv'))
-    budget_sum_df = budget_df.groupby(["เขต", "latitude", "longitude"])['งบแผนงาน'].sum().reset_index()
+    df_budget_district_agg = pd.read_csv('../data/budget_district_info.csv'
+                                        ).dropna(subset=['dname']
+                                                ).groupby('dname')['งบแผนงาน'].sum().reset_index().rename(columns={'dname':'เขต'})
+
+    df_thai_address_data = pd.read_csv('../data/thai_address_data.csv')
+    budget_sum_df = df_thai_address_data.loc[df_thai_address_data.province=='กรุงเทพมหานคร'
+                                            ].rename(columns={'district':'เขต'}
+                                                    ).merge(df_budget_district_agg, on='เขต', how='left'
+                                                           ).groupby('เขต')[['latitude','longitude','งบแผนงาน']].mean().dropna().reset_index()
+    
     folium_map = folium.Map(location=[13.738, 100.597],
                             zoom_start=11,
                             tiles="Stamen Toner")
