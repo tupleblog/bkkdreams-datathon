@@ -34,11 +34,12 @@ def get_airtable_data(table_name: str):
 
 
 def format_dict_counter(dict_counter):
-
+    """
+    Format dictionary and rank by sum
+    """
     result = []
     for k, v in sorted(dict_counter.items(), key=lambda item: item[1], reverse=True):
         result.append({"budget_type": k, "amount": v})
-
     return result
 
 
@@ -62,7 +63,7 @@ def catch_all(path):
     survey_summary_df["to_decrease"] = survey_summary_df["decrease_list"].map(
         lambda x: format_dict_counter(dict(Counter(x)))
     )
-    result = survey_summary_df[["เขต", "to_increase", "to_decrease"]].to_dict(
+    result = survey_summary_df[["district", "to_increase", "to_decrease"]].to_dict(
         orient="records"
     )
 
