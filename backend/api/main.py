@@ -3,6 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 from cachetools import cached, LRUCache, TTLCache
 from airtable import Airtable
 from collections import Counter
+from cachetools import TTLCache
 
 import pandas as pd
 import requests
@@ -42,10 +43,9 @@ def format_dict_counter(dict_counter):
         result.append({"budget_type": k, "amount": v})
     return result
 
-
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def api_survey(path):
+# cache for 1 minute
+@cached(cache = TTLCache(maxsize = 32, ttl = 60))
+def get_survey():
 
     # survey = get_airtable_data("survey")
     # survey_df = pd.DataFrame([r["fields"] for r in survey["records"]])
@@ -72,7 +72,14 @@ def api_survey(path):
         r["sum_to_increase"] = sum([x["amount"] for x in r["to_increase"]])
         r["sum_to_decrease"] = sum([x["amount"] for x in r["to_decrease"]])
 
-    return jsonify({"status": True, "data": result})
+    return result
+
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def api_survey(path):
+
+    data = get_survey()
+    return jsonify({"status": True, "data": data})
 
 
 if __name__ == "__main__":
