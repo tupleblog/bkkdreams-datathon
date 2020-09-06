@@ -45,7 +45,7 @@ def format_dict_counter(dict_counter):
 
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
-def catch_all(path):
+def api_survey(path):
 
     # survey = get_airtable_data("survey")
     # survey_df = pd.DataFrame([r["fields"] for r in survey["records"]])
