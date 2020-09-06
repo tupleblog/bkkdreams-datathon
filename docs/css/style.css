@@ -87,3 +87,85 @@ body {
   font-size: 30px;
   padding: 0 35px;
 }
+
+.topic-item {
+  height: 30px;
+  background-color: #366c1e;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 30px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.district-item .card-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.district-item .icon-item {
+  text-align: center;
+}
+
+.district-item .icon-item i {
+  font-weight: bold;
+  font-size: 60px;
+}
+
+.decrease-container {
+  margin-top: 25px;
+}
+
+.topic-item:nth-child(2) {
+  background-color: #518938;
+}
+
+.topic-item:nth-child(3) {
+  background-color: #6ea756;
+}
+
+.topic-item:nth-child(4) {
+  background-color: #7fb668;
+}
+
+.topic-item:nth-child(5) {
+  background-color: #90c27b;
+}
+
+.decrease-container .topic-item {
+  background-color: #df1f1f;
+}
+
+.decrease-container .topic-item:nth-child(1) {
+  background-color: #df1f1f;
+}
+
+.decrease-container .topic-item:nth-child(2) {
+  background-color: #db3535;
+}
+
+.decrease-container .topic-item:nth-child(3) {
+  background-color: #dd4848;
+}
+
+.decrease-container .topic-item:nth-child(4) {
+  background-color: #dd5e5e;
+}
+
+.decrease-container .topic-item:nth-child(5) {
+  background-color: #e27777;
+}
+
+#district-loading {
+  text-align: center;
+  margin: 150px 0;
+}
+
+.card_amount {
+  font-size: 30px;
+  margin: 20px 0 !important;
+}
+
+.summary_title {
+  text-align: center;
+}

@@ -44,8 +44,8 @@ def format_dict_counter(dict_counter):
     return result
 
 # cache for 1 minute
-@cached(cache = TTLCache(maxsize = 32, ttl = 60))
-def get_survey():
+@cached(cache = TTLCache(maxsize = 32, ttl = 300))
+def get_survey_df():
 
     # survey = get_airtable_data("survey")
     # survey_df = pd.DataFrame([r["fields"] for r in survey["records"]])
@@ -54,9 +54,16 @@ def get_survey():
     survey = survey_table.get_all()
 
     survey_df = pd.DataFrame([r["fields"] for r in survey])
+
+    return survey_df
+    
+
+def get_data_district():
+
+
+    survey_df = get_survey_df()
     survey_summary_df = survey_df.groupby("district").agg(sum).reset_index()
 
-    print(survey_summary_df)
     survey_summary_df["to_increase"] = survey_summary_df["increase_list"].map(
         lambda x: format_dict_counter(dict(Counter(x)))
     )
@@ -74,12 +81,35 @@ def get_survey():
 
     return result
 
+
+
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def api_survey(path):
 
-    data = get_survey()
-    return jsonify({"status": True, "data": data})
+    survey_df = get_survey_df()
+
+    sex_count = survey_df["sex"].value_counts().to_dict()
+
+    print(survey_df.info())
+
+    survey_amount = survey_df.shape[0]
+
+
+    data_district = get_data_district()
+
+    data = {
+        "status": True, 
+        "data_district": data_district, 
+        "survey_amount": survey_amount,
+        "sex_count": sex_count,
+    }
+
+
+    response = jsonify(data)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+
+    return response
 
 
 if __name__ == "__main__":
