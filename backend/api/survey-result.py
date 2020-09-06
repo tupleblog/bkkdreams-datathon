@@ -25,7 +25,9 @@ def get_airtable_data(table_name: str):
 
     table_name can be ``talks``, ``jobboard``, ``jobseeker``
     """
-    request_url = f"https://api.airtable.com/v0/{AIRTABLE_ID}/{table_name}?api_key={AIRTABLE_KEY}"
+    request_url = (
+        f"https://api.airtable.com/v0/{AIRTABLE_ID}/{table_name}?api_key={AIRTABLE_KEY}"
+    )
     print(request_url)
     airtable_data = requests.get(request_url).json()
     return airtable_data
@@ -44,26 +46,24 @@ def format_dict_counter(dict_counter):
 @app.route("/<path:path>")
 def catch_all(path):
 
-    #survey = get_airtable_data("survey")
-    #survey_df = pd.DataFrame([r["fields"] for r in survey["records"]])
+    # survey = get_airtable_data("survey")
+    # survey_df = pd.DataFrame([r["fields"] for r in survey["records"]])
 
-    survey_table = Airtable(AIRTABLE_ID, 'survey', AIRTABLE_KEY)
+    survey_table = Airtable(AIRTABLE_ID, "survey", AIRTABLE_KEY)
     survey = survey_table.get_all()
-    
-    survey_df = pd.DataFrame([r['fields'] for r in survey])
-    survey_summary_df = survey_df.groupby("เขต").agg(sum).reset_index()
+
+    survey_df = pd.DataFrame([r["fields"] for r in survey])
+    survey_summary_df = survey_df.groupby("district").agg(sum).reset_index()
 
     print(survey_summary_df)
-    survey_summary_df["to_increase"] = survey_summary_df["อยากเพิ่มงบ"].map(
+    survey_summary_df["to_increase"] = survey_summary_df["increase_list"].map(
         lambda x: format_dict_counter(dict(Counter(x)))
     )
-    survey_summary_df["to_decrease"] = survey_summary_df["อยากลดงบ"].map(
+    survey_summary_df["to_decrease"] = survey_summary_df["decrease_list"].map(
         lambda x: format_dict_counter(dict(Counter(x)))
     )
-    result = (
-        survey_summary_df[["เขต", "to_increase", "to_decrease"]]
-        .rename(columns={"เขต": "district"})
-        .to_dict(orient="records")
+    result = survey_summary_df[["เขต", "to_increase", "to_decrease"]].to_dict(
+        orient="records"
     )
 
     # Add more data
