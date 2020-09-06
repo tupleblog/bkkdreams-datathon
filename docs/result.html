@@ -44,10 +44,41 @@
               <span class="card-title summary_title">จำนวนแบบสอบถามทั้งหมด</span>
               <div class="divider"></div>
               <p id="survey_amount" class="center card_amount">{{survey_amount}}</p>
+              <!--
+              <canvas id="gender_chart" width="200" height="200"></canvas>
+              -->
             </div>
           </div>
         </div>
         <div class="col s12 m4"></div>
+
+        <div class="col s12 m6">
+
+          <div class="card">
+            <div class="card-content black-text">
+              <span class="card-title summary_title">งบที่อยากให้เพิ่ม</span>
+              <div class="divider"></div>
+
+
+              <canvas id="increase_chart" width="200" height="200"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col s12 m6">
+
+          <div class="card">
+            <div class="card-content black-text">
+              <span class="card-title summary_title">งบที่อยากให้ลด</span>
+              <div class="divider"></div>
+
+
+              <canvas id="decrease_chart" width="200" height="200"></canvas>
+            </div>
+          </div>
+
+        </div>
 
 
 
@@ -95,7 +126,8 @@
             </div>
             <div class="col s9">
 
-              <div class="topic-item" v-for="ti in item.to_increase.slice(0, 3)">{{ ti.budget_type }} ({{ti.amount}})
+              <div class="topic-item" v-for="ti in item.to_increase.slice(0, 3)">{{ ti.budget_type }}
+                ({{ti.amount}})
               </div>
 
             </div>
@@ -115,7 +147,8 @@
             </div>
             <div class="col s9">
 
-              <div class="topic-item" v-for="ti in item.to_decrease.slice(0, 3)">{{ ti.budget_type }} ({{ti.amount}})
+              <div class="topic-item" v-for="ti in item.to_decrease.slice(0, 3)">{{ ti.budget_type }}
+                ({{ti.amount}})
               </div>
 
             </div>
@@ -144,6 +177,11 @@
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"
+    integrity="sha512-vBmx0N/uQOXznm/Nbkp7h0P1RfLSj0HQrFSzV8m7rOGyj30fYAOKHYvCNez+yM8IrfnW0TCodDEjRqf6fodf/Q=="
+    crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/chartjs-plugin-colorschemes"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
@@ -151,7 +189,7 @@
 
   <script>
     var URL = "https://asia-southeast2-thai-gov-spending.cloudfunctions.net/survey";
-    //URL = "http://127.0.0.1:5003/"
+    URL = "http://127.0.0.1:5003/"
 
     $(document).ready(initChart);
 
@@ -166,8 +204,6 @@
     });
 
     function initChart() {
-
-      console.log("initChart");
 
       $.ajax({
         url: URL,
@@ -184,26 +220,118 @@
             return false;
           }
 
-          console.log(appDistrict.data_district);
-
           appDistrict.data_district = data.data_district;
           appDistrict.isLoading = false;
-
           appDistrict.survey_amount = data.survey_amount
 
-          console.log(appDistrict.data_district)
+          // Plot gender
+          //lot_gender(data.sex_count)
+
+          // Plot bar Chart
+          plot_bar_budget('increase_chart', data.budget_increases)
+
+          plot_bar_budget('decrease_chart', data.budget_decreases)
+        }
+      });
+
+    }
+
+    function plot_gender(sex_count) {
+
+      var sex_chart_data = {
+        datasets: [{
+          data: [
+            sex_count["ชาย"],
+            sex_count["หญิง"],
+            sex_count["เพศท่ีสาม"],
+            sex_count["ไม่ประสงค์จะระบุ"]
+          ],
+          "backgroundColor": ["rgb(54, 162, 235)", "rgb(255, 99, 132)", "rgb(255, 205, 86)"]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+          'ผู้ชาย',
+          'ผู้หญิง',
+          'เพศที่สาม',
+          'ไม่ประสงค์ระบุ',
+        ],
+
+      };
 
 
+      var ctx = document.getElementById('gender_chart');
+      var options = {};
+      var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: sex_chart_data,
+        options: options
+      });
 
+    }
 
+    var BUDGET_COLOR_MAPPER = {
+      "การคลัง": "#ff9896",
+      "การศึกษา": "#9467bd",
+      "ขนส่งสาธารณะ": "#1f77b4",
+      "งานทั่วไป": "#ffbb78",
+      "น้ำท่วม/ทางเท้า": "#d62728",
+      "พัฒนาชุมชน/อาชีพ": "#ff7f0e",
+      "สิ่งแวดล้อม": "#aec7e8",
+      "อนามัย/สาธารณะสุข": "#c5b0d5",
+      "เทศกิจ/รักษาความสะอาด": "#2ca02c",
+      "โรงพยาบาล/แพทย์": "#98df8a",
+    };
 
+    function plot_bar_budget(id, budgets) {
 
+      var labels = budgets.map((r, index, arr) => r.budget_type);
+      var data = budgets.map((r, index, arr) => r.amount);
 
+      /*
+      if (BUDGET_COLOR_MAPPER == null) {
+        let colors = Chart.colorschemes.tableau.Classic20
+        BUDGET_COLOR_MAPPER = Object.fromEntries((new Map(labels.map((r, i) => [r, colors[i]]))));
+      }
+      */
+      var colors = labels.map((r => BUDGET_COLOR_MAPPER[r]));
 
+      var chart_data = {
+        "labels": labels,
+        "datasets": [{
+          "label": "",
+          "data": data,
+          "fill": false,
+          "backgroundColor": colors,
+        }]
+      }
 
-
-
-
+      var ctx = document.getElementById(id);
+      var chart = new Chart(ctx, {
+        "type": "bar",
+        "data": chart_data,
+        "options": {
+          "scales": {
+            "yAxes": [{
+              scaleLabel: {
+                display: true,
+                labelString: 'จำนวน'
+              },
+              "ticks": {
+                "beginAtZero": true
+              }
+            }]
+          },
+          plugins: {
+            colorschemes: {
+              scheme: 'brewer.Paired12'
+            }
+          },
+          legend: {
+            labels: {
+              fontSize: 0
+            }
+          }
         }
       });
 

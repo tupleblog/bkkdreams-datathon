@@ -98,11 +98,37 @@ def api_survey(path):
 
     data_district = get_data_district()
 
+    # budget_type count
+    budget_increase = {}
+    budget_decrease = {}
+    for d in data_district:
+        for ti in d["to_increase"]:
+            budget_type = ti["budget_type"]
+
+            if budget_type not in  budget_increase.keys():
+                budget_increase[budget_type] = 0
+
+            budget_increase[budget_type] += ti["amount"]
+
+        for ti in d["to_decrease"]:
+            budget_type = ti["budget_type"]
+
+            if budget_type not in  budget_decrease.keys():
+                budget_decrease[budget_type] = 0
+
+            budget_decrease[budget_type] += ti["amount"]
+
+
+    budget_increases = [{"budget_type": k, "amount": v} for k, v in sorted(budget_increase.items(), key=lambda item: item[1], reverse=True)]
+    budget_decreases = [{"budget_type": k, "amount": v} for k, v in sorted(budget_decrease.items(), key=lambda item: item[1], reverse=True)]
+
     data = {
         "status": True, 
         "data_district": data_district, 
         "survey_amount": survey_amount,
         "sex_count": sex_count,
+        "budget_increases": budget_increases,
+        "budget_decreases": budget_decreases,
     }
 
 
