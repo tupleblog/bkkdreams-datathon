@@ -123,6 +123,7 @@ def api_survey(path):
     budget_decreases = [{"budget_type": k, "amount": v} for k, v in sorted(budget_decrease.items(), key=lambda item: item[1], reverse=True)]
 
     data = {
+        "v": "0.0.1",
         "status": True, 
         "data_district": data_district, 
         "survey_amount": survey_amount,
