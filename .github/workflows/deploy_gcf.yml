@@ -6,10 +6,12 @@ name: Deploy Cloud Function
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
+    paths:
+      - "backend/api/**"
   pull_request:
-    branches: [ master ]
-  
+    branches: [master]
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -32,5 +34,3 @@ jobs:
         run: gcloud info
       - name: Deploy function
         run: cd backend/api/ && ./deploy.sh
-
-
