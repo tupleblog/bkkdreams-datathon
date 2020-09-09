@@ -1,3 +1,6 @@
+"""
+Produce Folium map of dataset
+"""
 import json
 
 # import os.path as op

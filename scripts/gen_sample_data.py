@@ -1,3 +1,6 @@
+"""
+Generate example survey data
+"""
 import os
 import json
 import requests
