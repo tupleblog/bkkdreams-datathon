@@ -1,8 +1,12 @@
-# thai-gov-spending
+# Bangkok Datathon (แงะงบกรุงเทพ)
 
-Thai Government Spending. Visualization for Thai Goverment Spending
+โปรเจกต์นี้เป็นโปรเจกต์จากงานแงะงบกรุงเทพฯปี 2563 จัดที่ BACC
 
-We need two files:
+เราได้นำข้อมูลงบของกรุงเทพมหานครในรูปแบบของไฟล์ PDF มาทำให้เป็นข้อมูลตารางและ
+ออกแบบแบบสอบถามจากข้อมูลงบกรุงเทพฯ เพื่อทำให้คนที่เข้ามาดูข้อมูลสามารถออกความเห็น
+เกี่ยวกับงบประมาณของจังหวัดได้
+
+## External files
 
 ``` sh
 wget https://raw.githubusercontent.com/425degree-developers/thaiaddress/master/thaiaddress/data/thai_address_data.csv
@@ -14,3 +18,9 @@ Use `pdfbox-app-2.0.21.jar` to transform to HTML
 ``` sh
 java -jar pdfbox.jar ExtractText -html budget.pdf budget.html
 ```
+
+## Data and website
+
+We store cleaned data in `data` folder and we use `docs` folder to display our website.
+We will update ourcode to clean the PDF file later on (we haven't cleaned it due to
+the time constraint).
