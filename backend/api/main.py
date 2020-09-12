@@ -26,9 +26,8 @@ def get_airtable_data(table_name: str):
 
     table_name can be ``talks``, ``jobboard``, ``jobseeker``
     """
-    request_url = (
-        f"https://api.airtable.com/v0/{AIRTABLE_ID}/{table_name}?api_key={AIRTABLE_KEY}"
-    )
+
+    request_url = f"https://api.airtable.com/v0/{AIRTABLE_ID}/{table_name}?api_key={AIRTABLE_KEY}"
     print(request_url)
     airtable_data = requests.get(request_url).json()
     return airtable_data
@@ -43,8 +42,9 @@ def format_dict_counter(dict_counter):
         result.append({"budget_type": k, "amount": v})
     return result
 
+
 # cache for 1 minute
-@cached(cache = TTLCache(maxsize = 32, ttl = 300))
+@cached(cache=TTLCache(maxsize=32, ttl=300))
 def get_survey_df():
 
     # survey = get_airtable_data("survey")
@@ -55,11 +55,17 @@ def get_survey_df():
 
     survey_df = pd.DataFrame([r["fields"] for r in survey])
 
+    # Fill null value with empty list
+    for row in survey_df.loc[survey_df.decrease_list.isnull(), "decrease_list"].index:
+        survey_df.at[row, "decrease_list"] = []
+
+    for row in survey_df.loc[survey_df.increase_list.isnull(), "increase_list"].index:
+        survey_df.at[row, "increase_list"] = []
+
     return survey_df
-    
+
 
 def get_data_district():
-
 
     survey_df = get_survey_df()
     survey_summary_df = survey_df.groupby("district").agg(sum).reset_index()
@@ -70,9 +76,7 @@ def get_data_district():
     survey_summary_df["to_decrease"] = survey_summary_df["decrease_list"].map(
         lambda x: format_dict_counter(dict(Counter(x)))
     )
-    result = survey_summary_df[["district", "to_increase", "to_decrease"]].to_dict(
-        orient="records"
-    )
+    result = survey_summary_df[["district", "to_increase", "to_decrease"]].to_dict(orient="records")
 
     # Add more data
     for r in result:
@@ -80,7 +84,6 @@ def get_data_district():
         r["sum_to_decrease"] = sum([x["amount"] for x in r["to_decrease"]])
 
     return result
-
 
 
 @app.route("/", defaults={"path": ""})
@@ -95,7 +98,6 @@ def api_survey(path):
 
     survey_amount = survey_df.shape[0]
 
-
     data_district = get_data_district()
 
     # budget_type count
@@ -105,7 +107,7 @@ def api_survey(path):
         for ti in d["to_increase"]:
             budget_type = ti["budget_type"]
 
-            if budget_type not in  budget_increase.keys():
+            if budget_type not in budget_increase.keys():
                 budget_increase[budget_type] = 0
 
             budget_increase[budget_type] += ti["amount"]
@@ -113,25 +115,29 @@ def api_survey(path):
         for ti in d["to_decrease"]:
             budget_type = ti["budget_type"]
 
-            if budget_type not in  budget_decrease.keys():
+            if budget_type not in budget_decrease.keys():
                 budget_decrease[budget_type] = 0
 
             budget_decrease[budget_type] += ti["amount"]
 
-
-    budget_increases = [{"budget_type": k, "amount": v} for k, v in sorted(budget_increase.items(), key=lambda item: item[1], reverse=True)]
-    budget_decreases = [{"budget_type": k, "amount": v} for k, v in sorted(budget_decrease.items(), key=lambda item: item[1], reverse=True)]
+    budget_increases = [
+        {"budget_type": k, "amount": v}
+        for k, v in sorted(budget_increase.items(), key=lambda item: item[1], reverse=True)
+    ]
+    budget_decreases = [
+        {"budget_type": k, "amount": v}
+        for k, v in sorted(budget_decrease.items(), key=lambda item: item[1], reverse=True)
+    ]
 
     data = {
         "v": "0.0.1",
-        "status": True, 
-        "data_district": data_district, 
+        "status": True,
+        "data_district": data_district,
         "survey_amount": survey_amount,
         "sex_count": sex_count,
         "budget_increases": budget_increases,
         "budget_decreases": budget_decreases,
     }
-
 
     response = jsonify(data)
     response.headers.add("Access-Control-Allow-Origin", "*")
