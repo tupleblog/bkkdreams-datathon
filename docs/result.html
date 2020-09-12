@@ -4,7 +4,17 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=1366" />
-  <title>งบกรุงเทพมหานคร โดย tupleblog team</title>
+
+  <meta property="og:title" content="ผลสำรวจงบกรุงเทพมหานคร" />
+  <meta property="og:description" content="แสดงผลสำรวจจากแบบสอบถามงบกรุงเทพมหานคร" />
+  <meta property="og:image" content="https://tupleblog.github.io/images/bkk-datathon-og.jpg?bkk" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="ผลสำรวจงบกรุงเทพมหานคร" />
+  <meta property="twitter:description" content="แสดงผลสำรวจจากแบบสอบถามงบกรุงเทพมหานคร" />
+  <meta property="twitter:image" content="https://tupleblog.github.io/images/bkk-datathon-og.jpg?bkk">
+
+  <title>ผลสำรวจงบกรุงเทพมหานคร</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,7 +26,8 @@
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo black-text">งบกรุงเทพมหานคร</a>
+      <a id="logo-container" href="https://tupleblog.github.io/bkkdreams-datathon"
+        class="brand-logo black-text">งบกรุงเทพมหานคร</a>
       <ul class="right hide-on-med-and-down">
         <li></li>
       </ul>
@@ -43,7 +54,26 @@
             <div class="card-content black-text">
               <span class="card-title summary_title">จำนวนแบบสอบถามทั้งหมด</span>
               <div class="divider"></div>
-              <p id="survey_amount" class="center card_amount">{{survey_amount}}</p>
+
+              <div v-if="isLoading" class="center" style="margin-top: 20px;">
+                <div class="preloader-wrapper big active">
+                  <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-else>
+                <p id="survey_amount" class="center card_amount">{{survey_amount}}</p>
+              </div>
               <!--
               <canvas id="gender_chart" width="200" height="200"></canvas>
               -->
@@ -59,8 +89,24 @@
               <span class="card-title summary_title">งบที่อยากให้เพิ่ม</span>
               <div class="divider"></div>
 
+              <div v-if="isLoading" class="center" style="margin-top: 20px;">
+                <div class="preloader-wrapper big active">
+                  <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <canvas id="increase_chart" width="200" height="200"></canvas>
+
             </div>
           </div>
 
@@ -72,6 +118,22 @@
             <div class="card-content black-text">
               <span class="card-title summary_title">งบที่อยากให้ลด</span>
               <div class="divider"></div>
+
+              <div v-if="isLoading" class="center" style="margin-top: 20px;">
+                <div class="preloader-wrapper big active">
+                  <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
               <canvas id="decrease_chart" width="200" height="200"></canvas>
@@ -189,7 +251,6 @@
 
   <script>
     var URL = "https://asia-southeast2-thai-gov-spending.cloudfunctions.net/survey";
-    //URL = "http://127.0.0.1:5003/"
 
     $(document).ready(initChart);
 
@@ -212,8 +273,6 @@
           console.log(err)
         },
         success: function (data) {
-
-          console.log(data)
 
           if (!data.status) {
             // TODO:
@@ -281,6 +340,7 @@
       "อนามัย/สาธารณะสุข": "#c5b0d5",
       "เทศกิจ/รักษาความสะอาด": "#2ca02c",
       "โรงพยาบาล/แพทย์": "#98df8a",
+      "โยธา/ก่อสร้าง": "#9bf6ff",
     };
 
     function plot_bar_budget(id, budgets) {
