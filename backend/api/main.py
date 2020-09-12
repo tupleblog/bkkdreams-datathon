@@ -44,7 +44,7 @@ def format_dict_counter(dict_counter):
 
 
 # cache for 1 minute
-@cached(cache=TTLCache(maxsize=32, ttl=300))
+@cached(cache=TTLCache(maxsize=32, ttl=60))
 def get_survey_df():
 
     # survey = get_airtable_data("survey")
