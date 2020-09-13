@@ -169,3 +169,8 @@ body {
 .summary_title {
   text-align: center;
 }
+
+.big-red {
+  font-size: 20px;
+  color: red;
+}
