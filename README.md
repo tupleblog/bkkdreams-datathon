@@ -6,6 +6,9 @@
 ออกแบบแบบสอบถามจากข้อมูลงบกรุงเทพฯ เพื่อทำให้คนที่เข้ามาดูข้อมูลสามารถออกความเห็น
 เกี่ยวกับงบประมาณของจังหวัดได้
 
+สามารถดู demo ได้ที่ [https://tupleblog.github.io/bkkdreams-datathon](https://tupleblog.github.io/bkkdreams-datathon/)
+(demo นี้ใช้สำหรับเป็นตัวอย่างเท่านั้น ยังไม่ใช่แอพพลิเคชั่นจริงของทางงาน)
+
 ## External files
 
 ``` sh
